@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRCard - Crea tu tarjeta de visita con QR de WhatsApp</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Crea tu tarjeta de visita con QR de WhatsApp gratis en segundos</h1>
+            <p>Sin registro, 100% privado. Ideal para autónomos y pequeños negocios.</p>
+        </header>
+        <form id="cardForm">
+            <label for="name">Nombre *</label>
+            <input type="text" id="name" required>
+
+            <label for="phone">Teléfono (WhatsApp) *</label>
+            <input type="tel" id="phone" required placeholder="+34 600 000 000">
+
+            <label for="company">Empresa</label>
+            <input type="text" id="company">
+
+            <label for="logo">Logo (opcional, max 1MB)</label>
+            <input type="file" id="logo" accept="image/*">
+
+            <button type="submit" id="generateBtn">Crear mi tarjeta ahora</button>
+        </form>
+        <div id="preview" class="preview hidden">
+            <h2>Vista previa</h2>
+            <div id="cardCanvas" class="card"></div>
+            <button id="downloadBtn">Descargar PNG</button>
+        </div>
+        <footer>
+            <p>Tus datos quedan en tu dispositivo. No recopilamos información.</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
