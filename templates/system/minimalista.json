@@ -1,0 +1,95 @@
+{
+  "id": "minimalista",
+  "name": "Minimalista",
+  "description": "Diseño limpio y elegante con fondo blanco y texto negro. Ideal para profesionales que prefieren la simplicidad.",
+  "version": "1.0.0",
+  "author": "QRCard System",
+  "layout": {
+    "type": "absolute",
+    "width": "85mm",
+    "height": "55mm",
+    "bleed": "3mm",
+    "totalWidth": "91mm",
+    "totalHeight": "61mm"
+  },
+  "elements": [
+    {
+      "type": "text",
+      "field": "name",
+      "position": {
+        "x": "5mm",
+        "y": "8mm"
+      },
+      "style": {
+        "font": "Arial",
+        "size": "16pt",
+        "color": "#000000",
+        "weight": "bold",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "position",
+      "position": {
+        "x": "5mm",
+        "y": "18mm"
+      },
+      "style": {
+        "font": "Arial",
+        "size": "11pt",
+        "color": "#333333",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "company",
+      "position": {
+        "x": "5mm",
+        "y": "26mm"
+      },
+      "style": {
+        "font": "Arial",
+        "size": "10pt",
+        "color": "#666666",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "phone",
+      "position": {
+        "x": "5mm",
+        "y": "38mm"
+      },
+      "style": {
+        "font": "Arial",
+        "size": "9pt",
+        "color": "#333333",
+        "align": "left"
+      }
+    },
+    {
+      "type": "qr",
+      "position": {
+        "x": "60mm",
+        "y": "12mm"
+      },
+      "size": "28mm",
+      "style": {
+        "color": "#000000",
+        "bgColor": "#FFFFFF"
+      }
+    }
+  ],
+  "styles": {
+    "background": "#FFFFFF",
+    "textColor": "#000000",
+    "typography": {
+      "primary": "Arial",
+      "secondary": "Helvetica",
+      "fallback": ["Arial", "Helvetica", "sans-serif"]
+    }
+  }
+}

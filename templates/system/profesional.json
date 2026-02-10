@@ -1,0 +1,119 @@
+{
+  "id": "profesional",
+  "name": "Profesional",
+  "description": "Diseño corporativo con layout estructurado y colores sobrios. Ideal para empresas B2B, consultoras y servicios profesionales.",
+  "version": "1.0.0",
+  "author": "QRCard System",
+  "layout": {
+    "type": "absolute",
+    "width": "85mm",
+    "height": "55mm",
+    "bleed": "3mm",
+    "totalWidth": "91mm",
+    "totalHeight": "61mm"
+  },
+  "elements": [
+    {
+      "type": "image",
+      "field": "logo",
+      "position": {
+        "x": "5mm",
+        "y": "5mm"
+      },
+      "width": "12mm",
+      "height": "12mm"
+    },
+    {
+      "type": "text",
+      "field": "company",
+      "position": {
+        "x": "20mm",
+        "y": "8mm"
+      },
+      "style": {
+        "font": "Helvetica",
+        "size": "12pt",
+        "color": "#007BFF",
+        "weight": "bold",
+        "align": "left"
+      }
+    },
+    {
+      "type": "line",
+      "position": {
+        "x": "5mm",
+        "y": "22mm"
+      },
+      "length": 75,
+      "orientation": "horizontal",
+      "style": {
+        "color": "#D3D3D3",
+        "width": 1
+      }
+    },
+    {
+      "type": "text",
+      "field": "name",
+      "position": {
+        "x": "5mm",
+        "y": "26mm"
+      },
+      "style": {
+        "font": "Helvetica",
+        "size": "14pt",
+        "color": "#333333",
+        "weight": "bold",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "position",
+      "position": {
+        "x": "5mm",
+        "y": "36mm"
+      },
+      "style": {
+        "font": "Helvetica",
+        "size": "10pt",
+        "color": "#666666",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "phone",
+      "position": {
+        "x": "5mm",
+        "y": "46mm"
+      },
+      "style": {
+        "font": "Helvetica",
+        "size": "9pt",
+        "color": "#007BFF",
+        "align": "left"
+      }
+    },
+    {
+      "type": "qr",
+      "position": {
+        "x": "60mm",
+        "y": "28mm"
+      },
+      "size": "24mm",
+      "style": {
+        "color": "#333333",
+        "bgColor": "#FFFFFF"
+      }
+    }
+  ],
+  "styles": {
+    "background": "#D3D3D3",
+    "textColor": "#333333",
+    "typography": {
+      "primary": "Helvetica",
+      "secondary": "Arial",
+      "fallback": ["Helvetica", "Arial", "sans-serif"]
+    }
+  }
+}

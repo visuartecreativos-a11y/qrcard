@@ -1,0 +1,99 @@
+{
+  "id": "creativo",
+  "name": "Creativo",
+  "description": "Diseño vibrante con colores vivos y elementos asimétricos. Perfecto para diseñadores, artistas y negocios creativos.",
+  "version": "1.0.0",
+  "author": "QRCard System",
+  "layout": {
+    "type": "absolute",
+    "width": "85mm",
+    "height": "55mm",
+    "bleed": "3mm",
+    "totalWidth": "91mm",
+    "totalHeight": "61mm"
+  },
+  "elements": [
+    {
+      "type": "text",
+      "field": "name",
+      "position": {
+        "x": "5mm",
+        "y": "8mm"
+      },
+      "style": {
+        "font": "Comic Sans MS",
+        "size": "16pt",
+        "color": "#FFFFFF",
+        "weight": "bold",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "position",
+      "position": {
+        "x": "5mm",
+        "y": "20mm"
+      },
+      "style": {
+        "font": "Trebuchet MS",
+        "size": "11pt",
+        "color": "#FFD700",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "company",
+      "position": {
+        "x": "5mm",
+        "y": "30mm"
+      },
+      "style": {
+        "font": "Trebuchet MS",
+        "size": "10pt",
+        "color": "#90EE90",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "phone",
+      "position": {
+        "x": "5mm",
+        "y": "45mm"
+      },
+      "style": {
+        "font": "Trebuchet MS",
+        "size": "9pt",
+        "color": "#FFFFFF",
+        "align": "left"
+      }
+    },
+    {
+      "type": "qr",
+      "position": {
+        "x": "58mm",
+        "y": "10mm"
+      },
+      "size": "28mm",
+      "style": {
+        "color": "#FFFFFF",
+        "bgColor": "transparent"
+      }
+    }
+  ],
+  "styles": {
+    "background": "#28A745",
+    "textColor": "#FFFFFF",
+    "pattern": {
+      "type": "dots",
+      "color": "#1e7e34"
+    },
+    "typography": {
+      "primary": "Trebuchet MS",
+      "secondary": "Comic Sans MS",
+      "fallback": ["Trebuchet MS", "Arial", "sans-serif"]
+    }
+  }
+}

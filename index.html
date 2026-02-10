@@ -1,55 +1,642 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QRCard - Crea tu tarjeta de visita con QR de WhatsApp</title>
+    
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://html2canvas.hertzen.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; media-src 'self' blob:;">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Crea tarjetas de visita con QR de WhatsApp gratis en segundos. Sin registro, 100% privado. Ideal para autónomos y pequeños negocios en España y LATAM.">
+    <meta name="keywords" content="tarjeta de visita qr whatsapp, generador qr whatsapp gratis, tarjetas qr para negocios, qr whatsapp autónomos, tarjeta visita digital, código qr negocio">
+    <meta name="author" content="QRCard">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="es">
+    <meta name="geo.region" content="ES">
+    <meta name="geo.placename" content="España">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qrcard.app">
+    <meta property="og:title" content="QRCard - Tarjetas de Visita con QR de WhatsApp Gratis">
+    <meta property="og:description" content="Genera tarjetas de visita profesionales con QR de WhatsApp en segundos. Sin registro, 100% privado.">
+    <meta property="og:image" content="https://qrcard.app/og-image.png">
+    <meta property="og:locale" content="es_ES">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://qrcard.app">
+    <meta property="twitter:title" content="QRCard - Tarjetas de Visita con QR de WhatsApp">
+    <meta property="twitter:description" content="Genera tarjetas de visita profesionales con QR de WhatsApp en segundos. Sin registro.">
+    <meta property="twitter:image" content="https://qrcard.app/twitter-image.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://qrcard.app">
+    
+    <title>QRCard Dashboard - Crea tu tarjeta de visita con QR</title>
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "QRCard",
+        "description": "Generador gratuito de tarjetas de visita con QR de WhatsApp",
+        "url": "https://qrcard.app",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        },
+        "availableLanguage": {
+            "@type": "Language",
+            "name": "Spanish",
+            "alternateName": "es"
+        }
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Crea tu tarjeta de visita con QR de WhatsApp gratis en segundos</h1>
-            <p>Sin registro, 100% privado. Ideal para autónomos y pequeños negocios.</p>
-        </header>
-        <form id="cardForm">
-            <label for="name">Nombre *</label>
-            <input type="text" id="name" required>
-
-            <label for="phone">Teléfono (WhatsApp) *</label>
-            <input type="tel" id="phone" required placeholder="+34 600 000 000">
-
-            <label for="company">Empresa</label>
-            <input type="text" id="company">
-
-            <label for="position">Cargo (opcional)</label>
-            <input type="text" id="position">
-
-            <label for="style">Estilo de tarjeta</label>
-            <select id="style">
-                <option value="minimalista">Minimalista</option>
-                <option value="moderno">Moderno</option>
-                <option value="elegante">Elegante</option>
-                <option value="creativo">Creativo</option>
-                <option value="profesional">Profesional</option>
-            </select>
-
-            <label for="logo">Logo (opcional, max 1MB)</label>
-            <input type="file" id="logo" accept="image/*">
-
-            <button type="submit" id="generateBtn">Crear mi tarjeta ahora</button>
-        </form>
-        <div id="preview" class="preview hidden">
-            <h2>Vista previa</h2>
-            <div id="cardCanvas" class="card"></div>
-            <button id="downloadBtn">Descargar PNG</button>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">QRCard</div>
         </div>
-        <footer>
-            <p>Tus datos quedan en tu dispositivo. No recopilamos información.</p>
-        </footer>
     </div>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M8 12h8M12 8v8"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">QRCard</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#home" class="nav-item active" data-section="home">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span>Inicio</span>
+                </a>
+                <a href="#create" class="nav-item" data-section="create">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <path d="M12 8v8M8 12h8"/>
+                    </svg>
+                    <span>Crear Tarjeta</span>
+                </a>
+                <a href="#templates" class="nav-item" data-section="templates">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    <span>Plantillas</span>
+                </a>
+                <a href="#history" class="nav-item" data-section="history">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <span>Historial</span>
+                </a>
+                <a href="#settings" class="nav-item" data-section="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 17.66l-4.24 4.24M23 12h-6m-6 0H1m20.24 4.24l-4.24-4.24M6.34 6.34L2.1 2.1"/>
+                    </svg>
+                    <span>Configuración</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="theme-toggle" id="themeToggle">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="helpBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        Ayuda
+                    </button>
+                    <div class="user-menu">
+                        <div class="avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Home Section -->
+                <section id="home" class="section active">
+                    <div class="hero">
+                        <div class="hero-content">
+                            <h2 class="hero-title">Crea tarjetas de visita profesionales</h2>
+                            <p class="hero-subtitle">Genera códigos QR de WhatsApp en segundos. Sin registro, 100% privado.</p>
+                            <button class="btn btn-primary btn-large" onclick="navigateTo('create')">
+                                Crear mi tarjeta ahora
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="5" y1="12" x2="19" y2="12"/>
+                                    <polyline points="12 5 19 12 12 19"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="floating-cards">
+                                <div class="floating-card card-1">
+                                    <div class="mini-card minimalista">
+                                        <div class="mini-qr"></div>
+                                        <div class="mini-info">
+                                            <div class="mini-name">John Doe</div>
+                                            <div class="mini-phone">+34 600 000 000</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="floating-card card-2">
+                                    <div class="mini-card moderno">
+                                        <div class="mini-qr"></div>
+                                        <div class="mini-info">
+                                            <div class="mini-name">Jane Smith</div>
+                                            <div class="mini-phone">+34 611 111 111</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="floating-card card-3">
+                                    <div class="mini-card elegante">
+                                        <div class="mini-qr"></div>
+                                        <div class="mini-info">
+                                            <div class="mini-name">Mike Johnson</div>
+                                            <div class="mini-phone">+34 622 222 222</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                    <path d="M8 12h8M12 8v8"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="statCards">0</div>
+                                <div class="stat-label">Tarjetas creadas</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="statDownloads">0</div>
+                                <div class="stat-label">Descargas</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">Plantillas</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-section">
+                        <h3 class="section-title">¿Cómo funciona?</h3>
+                        <div class="video-container">
+                            <video id="tutorialVideo" controls poster="assets/video-poster.jpg">
+                                <source src="assets/tutorial.mp4" type="video/mp4">
+                                Tu navegador no soporta videos HTML5.
+                            </video>
+                            <div class="video-overlay" id="videoOverlay">
+                                <button class="play-btn" id="playBtn">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Create Section -->
+                <section id="create" class="section">
+                    <div class="split-view">
+                        <div class="form-panel">
+                            <h3 class="panel-title">Información de contacto</h3>
+                            <form id="cardForm" class="card-form">
+                                <div class="form-group">
+                                    <label for="name">Nombre completo *</label>
+                                    <input type="text" id="name" required placeholder="Ej: María García">
+                                    <span class="input-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                            <circle cx="12" cy="7" r="4"/>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone">Teléfono WhatsApp *</label>
+                                    <input type="tel" id="phone" required placeholder="+34 600 000 000">
+                                    <span class="input-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="company">Empresa / Negocio</label>
+                                    <input type="text" id="company" placeholder="Ej: Mi Empresa S.L.">
+                                    <span class="input-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="position">Cargo / Profesión</label>
+                                    <input type="text" id="position" placeholder="Ej: Diseñador Gráfico">
+                                    <span class="input-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20 7h-4V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM10 5h4v2h-4V5z"/>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="Ej: contacto@miempresa.com">
+                                    <span class="input-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                            <polyline points="22,6 12,13 2,6"/>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="website">Sitio web</label>
+                                    <input type="url" id="website" placeholder="Ej: https://www.miempresa.com">
+                                    <span class="input-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <line x1="2" y1="12" x2="22" y2="12"/>
+                                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="message">Mensaje predefinido (opcional)</label>
+                                    <input type="text" id="message" placeholder="Ej: Hola, vi tu tarjeta y me interesa contactar contigo" maxlength="100">
+                                    <span class="input-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                        </svg>
+                                    </span>
+                                    <small class="form-text">Máximo 100 caracteres. Se añadirá al enlace de WhatsApp.</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Estilo de tarjeta</label>
+
+                                    <div class="style-selector" id="styleSelector">
+                                        <div class="style-option active" data-style="minimalista">
+                                            <div class="style-preview minimalista-preview"></div>
+                                            <span>Minimalista</span>
+                                        </div>
+                                        <div class="style-option" data-style="moderno">
+                                            <div class="style-preview moderno-preview"></div>
+                                            <span>Moderno</span>
+                                        </div>
+                                        <div class="style-option" data-style="elegante">
+                                            <div class="style-preview elegante-preview"></div>
+                                            <span>Elegante</span>
+                                        </div>
+                                        <div class="style-option" data-style="creativo">
+                                            <div class="style-preview creativo-preview"></div>
+                                            <span>Creativo</span>
+                                        </div>
+                                    <div class="style-option" data-style="profesional">
+                                        <div class="style-preview profesional-preview"></div>
+                                        <span>Profesional</span>
+                                    </div>
+                                    <div class="style-option" data-style="luxe">
+                                        <div class="style-preview luxe-preview"></div>
+                                        <span>Luxe <span class="premium-badge">Premium 🔒</span></span>
+                                    </div>
+                                    <div class="style-option" data-style="eco">
+                                        <div class="style-preview eco-preview"></div>
+                                        <span>Eco <span class="premium-badge">Premium 🔒</span></span>
+                                    </div>
+                                    <div class="style-option" data-style="tech">
+                                        <div class="style-preview tech-preview"></div>
+                                        <span>Tech <span class="premium-badge">Premium 🔒</span></span>
+                                    </div>
+                                    <div class="style-option" data-style="vintage">
+                                        <div class="style-preview vintage-preview"></div>
+                                        <span>Vintage <span class="premium-badge">Premium 🔒</span></span>
+                                    </div>
+                                    <div class="style-option" data-style="bold">
+                                        <div class="style-preview bold-preview"></div>
+                                        <span>Bold <span class="premium-badge">Premium 🔒</span></span>
+                                    </div>
+                                </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Logo (opcional)</label>
+                                    <div class="drop-zone" id="dropZone">
+                                        <input type="file" id="logo" accept="image/*" hidden>
+                                        <div class="drop-zone-content">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                                <polyline points="17 8 12 3 7 8"/>
+                                                <line x1="12" y1="3" x2="12" y2="15"/>
+                                            </svg>
+                                            <p>Arrastra tu logo aquí o <span class="browse">selecciona un archivo</span></p>
+                                            <small>PNG, JPG hasta 2MB</small>
+                                        </div>
+                                        <div class="drop-zone-preview hidden" id="logoPreview">
+                                            <img src="" alt="Logo preview">
+                                            <button type="button" class="remove-logo" id="removeLogo">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary btn-large" id="generateBtn">
+                                        <span class="btn-text">Generar tarjeta</span>
+                                        <span class="btn-loader hidden">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"/>
+                                                <path d="M12 6v6l4 2"/>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="preview-panel">
+                            <h3 class="panel-title">Vista previa</h3>
+                            <div class="preview-container">
+                                <div id="cardCanvas" class="card-preview">
+                                    <div class="card-placeholder">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                            <path d="M8 12h8M12 8v8"/>
+                                        </svg>
+                                        <p>Completa los datos para ver la preview</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="preview-actions">
+                                <button class="btn btn-secondary" id="downloadBtn" disabled>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="7 10 12 15 17 10"/>
+                                        <line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                    Descargar PNG
+                                </button>
+                                <button class="btn btn-secondary" id="shareBtn" disabled>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="18" cy="5" r="3"/>
+                                        <circle cx="6" cy="12" r="3"/>
+                                        <circle cx="18" cy="19" r="3"/>
+                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                                    </svg>
+                                    Compartir
+                                </button>
+                            </div>
+                            
+                            <!-- NFC Panel -->
+                            <div class="nfc-panel">
+                                <h4 class="panel-title small">🌐 Versión NFC (tarjeta digital táctil)</h4>
+                                <p class="nfc-description">Programa un tag NFC con este enlace. Al tocarlo con un móvil, abre WhatsApp directamente.</p>
+                                <p id="nfcUrlDisplay" class="nfc-url">Rellena el teléfono para generar el enlace</p>
+                                <div class="nfc-actions">
+                                    <button class="btn btn-secondary" id="copyNfcBtn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                        Copiar enlace
+                                    </button>
+                                    <button class="btn btn-secondary" id="downloadVcfBtn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                            <polyline points="7 10 12 15 17 10"/>
+                                            <line x1="12" y1="15" x2="12" y2="3"/>
+                                        </svg>
+                                        Descargar vCard
+                                    </button>
+                                </div>
+                                <details class="nfc-instructions">
+                                    <summary>Instrucciones para programar NFC (app gratuita)</summary>
+                                    <ol>
+                                        <li>Descarga <strong>NFC Tools</strong> en <a href="https://play.google.com/store/apps/details?id=com.wakdev.wdnfc" target="_blank">Android</a> o <a href="https://apps.apple.com/app/nfc-tools/id1252976819" target="_blank">iOS</a>.</li>
+                                        <li>Abre → Write / Escribir → Add a record → Social network → WhatsApp.</li>
+                                        <li>Introduce tu número con +código país.</li>
+                                        <li>Toca Write y acerca el tag NFC al móvil.</li>
+                                        <li>¡Listo! (Si no ves WhatsApp, usa "URL" y pega el enlace copiado).</li>
+                                    </ol>
+                                </details>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Templates Section -->
+                <section id="templates" class="section">
+                    <h3 class="section-title">Elige una plantilla</h3>
+                    <div class="templates-grid" id="templatesGrid">
+                        <!-- Templates will be loaded dynamically -->
+                    </div>
+                </section>
+
+                <!-- History Section -->
+                <section id="history" class="section">
+                    <h3 class="section-title">Historial de tarjetas</h3>
+                    <div class="history-list" id="historyList">
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <p>No hay tarjetas creadas aún</p>
+                            <button class="btn btn-primary" onclick="navigateTo('create')">Crear primera tarjeta</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="section">
+                    <h3 class="section-title">Configuración</h3>
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Modo oscuro</h4>
+                                <p>Cambiar entre tema claro y oscuro</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Idioma</h4>
+                                <p>Selecciona tu idioma preferido</p>
+                            </div>
+                            <select class="setting-select" id="languageSelect">
+                                <option value="es">Español</option>
+                                <option value="en">English</option>
+                                <option value="fr">Français</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Calidad de exportación</h4>
+                                <p>Resolución de las tarjetas descargadas</p>
+                            </div>
+                            <select class="setting-select" id="qualitySelect">
+                                <option value="standard">Estándar (150 DPI)</option>
+                                <option value="high" selected>Alta (300 DPI)</option>
+                                <option value="ultra">Ultra (600 DPI)</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Borrar historial</h4>
+                                <p>Eliminar todas las tarjetas guardadas</p>
+                            </div>
+                            <button class="btn btn-danger" id="clearHistoryBtn">Borrar</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer -->
+            <footer class="main-footer">
+                <p>Tus datos quedan en tu dispositivo. No recopilamos información.</p>
+                <nav class="legal-links">
+                    <a href="aviso-legal.html">Aviso Legal</a>
+                    <a href="privacidad.html">Privacidad</a>
+                    <a href="terminos.html">Términos</a>
+                </nav>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Success Modal -->
+    <div class="modal hidden" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+            </div>
+            <h3>¡Tarjeta creada!</h3>
+            <p>Tu tarjeta de visita está lista para descargar.</p>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="modalDownloadBtn">Descargar ahora</button>
+                <button class="btn btn-secondary" id="modalCloseBtn">Crear otra</button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>

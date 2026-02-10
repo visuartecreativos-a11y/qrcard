@@ -1,0 +1,119 @@
+{
+  "id": "mi-empresa",
+  "name": "Plantilla Mi Empresa",
+  "description": "Plantilla personalizada con colores corporativos y layout optimizado",
+  "version": "1.0.0",
+  "author": "Tu Nombre",
+  "layout": {
+    "type": "absolute",
+    "width": "85mm",
+    "height": "55mm",
+    "bleed": "3mm",
+    "totalWidth": "91mm",
+    "totalHeight": "61mm"
+  },
+  "elements": [
+    {
+      "type": "image",
+      "field": "logo",
+      "position": {
+        "x": "5mm",
+        "y": "5mm"
+      },
+      "width": "20mm",
+      "height": "20mm"
+    },
+    {
+      "type": "text",
+      "field": "company",
+      "position": {
+        "x": "28mm",
+        "y": "8mm"
+      },
+      "style": {
+        "font": "Arial",
+        "size": "14pt",
+        "color": "#FF6B35",
+        "weight": "bold",
+        "align": "left"
+      }
+    },
+    {
+      "type": "line",
+      "position": {
+        "x": "5mm",
+        "y": "28mm"
+      },
+      "length": 75,
+      "orientation": "horizontal",
+      "style": {
+        "color": "#FF6B35",
+        "width": 2
+      }
+    },
+    {
+      "type": "text",
+      "field": "name",
+      "position": {
+        "x": "5mm",
+        "y": "32mm"
+      },
+      "style": {
+        "font": "Arial",
+        "size": "16pt",
+        "color": "#333333",
+        "weight": "bold",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "position",
+      "position": {
+        "x": "5mm",
+        "y": "42mm"
+      },
+      "style": {
+        "font": "Arial",
+        "size": "10pt",
+        "color": "#666666",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "phone",
+      "position": {
+        "x": "5mm",
+        "y": "50mm"
+      },
+      "style": {
+        "font": "Arial",
+        "size": "9pt",
+        "color": "#FF6B35",
+        "align": "left"
+      }
+    },
+    {
+      "type": "qr",
+      "position": {
+        "x": "58mm",
+        "y": "15mm"
+      },
+      "size": "28mm",
+      "style": {
+        "color": "#333333",
+        "bgColor": "#FFFFFF"
+      }
+    }
+  ],
+  "styles": {
+    "background": "#FFFFFF",
+    "textColor": "#333333",
+    "typography": {
+      "primary": "Arial",
+      "secondary": "Helvetica",
+      "fallback": ["Arial", "Helvetica", "sans-serif"]
+    }
+  }
+}

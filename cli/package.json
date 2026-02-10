@@ -1,0 +1,32 @@
+{
+  "name": "@qrcard/cli",
+  "version": "1.0.0",
+  "description": "CLI para generar tarjetas QR profesionales",
+  "main": "src/index.js",
+  "bin": {
+    "qrcard": "./bin/qrcard.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "axios": "^1.6.2",
+    "form-data": "^4.0.0",
+    "fs-extra": "^11.2.0",
+    "csv-parser": "^3.0.0",
+    "glob": "^10.3.10"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.56.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

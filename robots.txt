@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /aviso-legal.html
+Disallow: /privacidad.html
+Disallow: /terminos.html
+
+Sitemap: https://qrcard.app/sitemap.xml

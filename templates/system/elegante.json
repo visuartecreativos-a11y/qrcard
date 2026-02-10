@@ -1,0 +1,109 @@
+{
+  "id": "elegante",
+  "name": "Elegante",
+  "description": "Diseño sofisticado con fondo crema y tipografía serif. Ideal para abogados, consultores y negocios de lujo.",
+  "version": "1.0.0",
+  "author": "QRCard System",
+  "layout": {
+    "type": "absolute",
+    "width": "85mm",
+    "height": "55mm",
+    "bleed": "3mm",
+    "totalWidth": "91mm",
+    "totalHeight": "61mm"
+  },
+  "elements": [
+    {
+      "type": "text",
+      "field": "name",
+      "position": {
+        "x": "5mm",
+        "y": "10mm"
+      },
+      "style": {
+        "font": "Times New Roman",
+        "size": "18pt",
+        "color": "#2C2C2C",
+        "weight": "bold",
+        "align": "left"
+      }
+    },
+    {
+      "type": "line",
+      "position": {
+        "x": "5mm",
+        "y": "22mm"
+      },
+      "length": 40,
+      "orientation": "horizontal",
+      "style": {
+        "color": "#8B7355",
+        "width": 1.5
+      }
+    },
+    {
+      "type": "text",
+      "field": "position",
+      "position": {
+        "x": "5mm",
+        "y": "26mm"
+      },
+      "style": {
+        "font": "Times New Roman",
+        "size": "11pt",
+        "color": "#5C5C5C",
+        "style": "italic",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "company",
+      "position": {
+        "x": "5mm",
+        "y": "34mm"
+      },
+      "style": {
+        "font": "Times New Roman",
+        "size": "10pt",
+        "color": "#7A7A7A",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "phone",
+      "position": {
+        "x": "5mm",
+        "y": "45mm"
+      },
+      "style": {
+        "font": "Times New Roman",
+        "size": "9pt",
+        "color": "#5C5C5C",
+        "align": "left"
+      }
+    },
+    {
+      "type": "qr",
+      "position": {
+        "x": "58mm",
+        "y": "15mm"
+      },
+      "size": "26mm",
+      "style": {
+        "color": "#2C2C2C",
+        "bgColor": "#F5F5DC"
+      }
+    }
+  ],
+  "styles": {
+    "background": "#F5F5DC",
+    "textColor": "#2C2C2C",
+    "typography": {
+      "primary": "Times New Roman",
+      "secondary": "Georgia",
+      "fallback": ["Times New Roman", "Georgia", "serif"]
+    }
+  }
+}

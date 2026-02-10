@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Genera tarjetas de visita profesionales con QR de WhatsApp. 100% gratis, sin registro, diseño minimalista español 85×55mm.">
+    <meta name="keywords" content="tarjeta visita QR WhatsApp, generador QR, tarjeta negocio, código QR WhatsApp">
+    <meta name="author" content="QRCard">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="QRCard - Tarjetas de Visita QR WhatsApp">
+    <meta property="og:description" content="Genera tarjetas profesionales con QR de WhatsApp en segundos">
+    <meta property="og:type" content="website">
+    
+    <title>QRCard - Generador de Tarjetas QR WhatsApp</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --card-width: 85mm;
+            --card-height: 55mm;
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --border-color: #e2e8f0;
+        }
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-section {
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .hero-subtitle {
+            color: #64748b;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .form-section {
+            padding: 2.5rem;
+            background: white;
+        }
+        
+        .preview-section {
+            background: var(--bg-light);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            font-size: 0.9375rem;
+            transition: all 0.2s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+        
+        .input-group-text {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            color: #64748b;
+        }
+        
+        .input-group .form-control {
+            border-left: none;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .btn-generate {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            color: white;
+        }
+        
+        .btn-download {
+            background: #10b981;
+            border: none;
+            border-radius: 12px;
+            padding: 0.875rem 1.5rem;
+            font-weight: 600;
+            color: white;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-download:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        /* Tarjeta física - Dimensiones exactas 85x55mm */
+        .card-container {
+            width: var(--card-width);
+            height: var(--card-height);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex: 1;
+        }
+        
+        .card-info h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 4px 0;
+            line-height: 1.2;
+        }
+        
+        .card-info .position {
+            font-size: 10px;
+            color: #64748b;
+            margin: 0 0 2px 0;
+            line-height: 1.2;
+        }
+        
+        .card-info .company {
+            font-size: 9px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .card-qr-section {
+            text-align: center;
+        }
+        
+        .qr-code {
+            width: 55px;
+            height: 55px;
+            background: white;
+            border-radius: 8px;
+            padding: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .qr-label {
+            font-size: 7px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        
+        .card-footer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #f1f5f9;
+        }
+        
+        .card-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+            background: white;
+        }
+        
+        .card-phone {
+            font-size: 9px;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .card-message {
+            font-size: 7px;
+            color: #94a3b8;
+            font-style: italic;
+            margin-top: 2px;
+        }
+        
+        /* Área de drop para logo */
+        .drop-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .drop-zone i {
+            font-size: 2rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo-preview {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.75rem;
+            }
+            
+            .card-container {
+                transform: scale(0.85);
+                transform-origin: center;
+            }
+            
+            .form-section, .preview-section {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .disclaimer {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 1rem auto 0;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .generating .spinner {
+            display: inline-block;
+        }
+        
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+        
+        .toast {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .toast.success {
+            border-left: 4px solid #10b981;
+        }
+        
+        .toast.error {
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">QRCard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Crear Tarjeta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#como-funciona">Cómo Funciona</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" style="margin-top: 80px;">
+        <div class="container">
+            <h1 class="hero-title">Tu Tarjeta de Visita Digital</h1>
+            <p class="hero-subtitle">
+                Genera tarjetas profesionales con QR de WhatsApp en segundos. 
+                Formato español 85×55mm, listo para imprimir en alta calidad.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Application -->
+    <div class="container mb-5">
+        <div class="main-container">
+            <div class="row g-0">
+                <!-- Form Section -->
+                <div class="col-lg-6 form-section">
+                    <h4 class="mb-4">Completa tus datos</h4>
+                    
+                    <form id="qrForm">
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label class="form-label">Nombre completo *</label>
+                            <input type="text" class="form-control" id="nombre" required 
+                                   placeholder="Ej: María García López">
+                        </div>
+
+                        <!-- Cargo -->
+                        <div class="mb-3">
+                            <label class="form-label">Cargo / Profesión</label>
+                            <input type="text" class="form-control" id="cargo" 
+                                   placeholder="Ej: Diseñadora Gráfica">
+                        </div>
+
+                        <!-- Empresa -->
+                        <div class="mb-3">
+                            <label class="form-label">Empresa / Negocio</label>
+                            <input type="text" class="form-control" id="empresa" 
+                                   placeholder="Ej: García Design Studio">
+                        </div>
+
+                        <!-- Teléfono WhatsApp -->
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono WhatsApp *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">+</span>
+                                <input type="tel" class="form-control" id="telefono" required 
+                                       placeholder="34 600 123 456" 
+                                       pattern="[0-9\s]{9,15}">
+                            </div>
+                            <div class="form-text">Incluye código de país (34 para España)</div>
+                        </div>
+
+                        <!-- Mensaje Predefinido -->
+                        <div class="mb-3">
+                            <label class="form-label">Mensaje predefinido (opcional)</label>
+                            <input type="text" class="form-control" id="mensaje" 
+                                   placeholder="Ej: Hola, vi tu tarjeta y me interesa contactar contigo"
+                                   maxlength="100">
+                            <div class="form-text">Máximo 100 caracteres</div>
+                        </div>
+
+                        <!-- Logo -->
+                        <div class="mb-4">
+                            <label class="form-label">Logo (opcional)</label>
+                            <div class="drop-zone" id="dropZone">
+                                <div id="dropContent">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #94a3b8; margin-bottom: 0.5rem;">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="17 8 12 3 7 8"/>
+                                        <line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                    <p class="mb-1">Arrastra tu logo aquí o <span style="color: var(--primary-color); font-weight: 500;">selecciona</span></p>
+                                    <small class="text-muted">PNG, JPG o SVG. Máx 2MB.</small>
+                                </div>
+                                <img id="logoPreview" class="logo-preview d-none" alt="Logo preview">
+                                <button type="button" id="removeLogo" class="btn btn-sm btn-outline-danger d-none mt-2">Eliminar logo</button>
+                            </div>
+                            <input type="file" id="logoInput" accept="image/png,image/jpeg,image/jpg,image/svg+xml" hidden>
+                        </div>
+
+                        <button type="submit" class="btn btn-generate" id="generateBtn">
+                            <span class="spinner"></span>
+                            <span id="btnText">Generar Tarjeta QR</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="col-lg-6 preview-section">
+                    <div id="previewContainer">
+                        <div class="text-center text-muted">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.3; margin-bottom: 1rem;">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <path d="M8 12h8M12 8v8"/>
+                            </svg>
+                            <p>Completa el formulario para ver la previsualización</p>
+                        </div>
+                    </div>
+                    
+                    <button id="downloadBtn" class="btn btn-download d-none">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Descargar PNG (300 DPI)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How it Works -->
+    <section id="como-funciona" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-5">Cómo Funciona</h2>
+            <div class="row g-4">
+                <div class="col-md-4 text-center">
+                    <div class="p-4">
+                        <div class="mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: white; font-size: 1.5rem; font-weight: 700;">1</div>
+                        <h5>Completa tus datos</h5>
+                        <p class="text-muted">Introduce tu información de contacto y personaliza tu tarjeta.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="p-4">
+                        <div class="mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: white; font-size: 1.5rem; font-weight: 700;">2</div>
+                        <h5>Genera el QR</h5>
+                        <p class="text-muted">Creamos automáticamente tu código QR vinculado a WhatsApp.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="p-4">
+                        <div class="mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: white; font-size: 1.5rem; font-weight: 700;">3</div>
+                        <h5>Descarga e imprime</h5>
+                        <p class="text-muted">Obtén tu tarjeta en PNG de alta resolución lista para imprimir.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Preguntas Frecuentes</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item border-0 mb-3 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    ¿Es gratuito?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sí, completamente gratuito. No hay límites de uso ni tarjetas de crédito requeridas.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item border-0 mb-3 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    ¿Qué formato tiene la tarjeta?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Usamos el formato estándar español/europeo: 85 × 55 mm, el mismo que las tarjetas de crédito. La descarga es en PNG a 300 DPI para impresión profesional.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item border-0 mb-3 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    ¿Mis datos están seguros?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    100%. Todo el procesamiento se hace en tu navegador. No almacenamos ningún dato en servidores.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <div class="footer-links mb-3">
+                <a href="aviso-legal.html">Aviso Legal</a>
+                <a href="privacidad.html">Política de Privacidad</a>
+                <a href="terminos.html">Términos de Uso</a>
+                <a href="mailto:contacto@qrcard.app">Contacto</a>
+            </div>
+            <p class="text-muted mb-2">&copy; 2024 QRCard. Todos los derechos reservados.</p>
+            <p class="disclaimer">
+                QRCard es una herramienta gratuita para generar tarjetas de visita con QR de WhatsApp. 
+                No estamos afiliados con WhatsApp Inc. WhatsApp es marca registrada de Meta Platforms, Inc.
+                Tus datos se procesan localmente en tu navegador y nunca se envían a ningún servidor.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- QRCode.js -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <!-- html2canvas -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <script>
+        // ==========================================
+        // QRCard MVP - Generador de Tarjetas QR
+        // ==========================================
+        
+        // Elementos DOM
+        const form = document.getElementById('qrForm');
+        const dropZone = document.getElementById('dropZone');
+        const logoInput = document.getElementById('logoInput');
+        const logoPreview = document.getElementById('logoPreview');
+        const dropContent = document.getElementById('dropContent');
+        const removeLogo = document.getElementById('removeLogo');
+        const previewContainer = document.getElementById('previewContainer');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const generateBtn = document.getElementById('generateBtn');
+        const btnText = document.getElementById('btnText');
+        
+        let currentLogo = null;
+        let currentCard = null;
+        
+        // ==========================================
+        // Utilidades
+        // ==========================================
+        
+        // Sanitización anti-XSS
+        function sanitize(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Formatear teléfono
+        function formatPhone(phone) {
+            return phone.replace(/\D/g, '');
+        }
+        
+        // Mostrar toast
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type} mb-2`;
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-2" style="color: ${type === 'success' ? '#10b981' : '#ef4444'};">
+                        ${type === 'success' 
+                            ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'
+                            : '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+                        }
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // ==========================================
+        // Logo Upload
+        // ==========================================
+        
+        dropZone.addEventListener('click', () => logoInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length) handleLogo(files[0]);
+        });
+        
+        logoInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleLogo(e.target.files[0]);
+        });
+        
+        function handleLogo(file) {
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('El logo no debe superar 2MB', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentLogo = e.target.result;
+                logoPreview.src = currentLogo;
+                logoPreview.classList.remove('d-none');
+                dropContent.classList.add('d-none');
+                removeLogo.classList.remove('d-none');
+                showToast('Logo cargado correctamente');
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        removeLogo.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentLogo = null;
+            logoPreview.classList.add('d-none');
+            dropContent.classList.remove('d-none');
+            removeLogo.classList.add('d-none');
+            logoInput.value = '';
+        });
+        
+        // ==========================================
+        // Generación de Tarjeta
+        // ==========================================
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const nombre = document.getElementById('nombre').value.trim();
+            const cargo = document.getElementById('cargo').value.trim();
+            const empresa = document.getElementById('empresa').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const mensaje = document.getElementById('mensaje').value.trim();
+            
+            if (!nombre || !telefono) {
+                showToast('Por favor completa los campos obligatorios', 'error');
+                return;
+            }
+            
+            // Mostrar loading
+            generateBtn.classList.add('generating');
+            generateBtn.disabled = true;
+            btnText.textContent = 'Generando...';
+            
+            try {
+                await generateCard({
+                    nombre: sanitize(nombre),
+                    cargo: sanitize(cargo),
+                    empresa: sanitize(empresa),
+                    telefono: formatPhone(telefono),
+                    mensaje: sanitize(mensaje)
+                });
+                
+                showToast('¡Tarjeta generada con éxito!');
+                downloadBtn.classList.remove('d-none');
+            } catch (error) {
+                console.error(error);
+                showToast('Error al generar la tarjeta', 'error');
+            } finally {
+                generateBtn.classList.remove('generating');
+                generateBtn.disabled = false;
+                btnText.textContent = 'Generar Tarjeta QR';
+            }
+        });
+        
+        async function generateCard(data) {
+            // Crear URL de WhatsApp
+            let waUrl = `https://wa.me/${data.telefono}`;
+            if (data.mensaje) {
+                waUrl += `?text=${encodeURIComponent(data.mensaje)}`;
+            }
+            
+            // Generar QR
+            const qrCanvas = document.createElement('canvas');
+            await QRCode.toCanvas(qrCanvas, waUrl, {
+                width: 200,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                },
+                errorCorrectionLevel: 'H'
+            });
+            
+            const qrDataUrl = qrCanvas.toDataURL('image/png');
+            
+            // Crear HTML de la tarjeta
+            const cardHTML = `
+                <div class="card-container" id="cardElement">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>${data.nombre}</h3>
+                            ${data.cargo ? `<p class="position">${data.cargo}</p>` : ''}
+                            ${data.empresa ? `<p class="company">${data.empresa}</p>` : ''}
+                        </div>
+                        <div class="card-qr-section">
+                            <img src="${qrDataUrl}" alt="QR WhatsApp" class="qr-code">
+                            <p class="qr-label">Escanea para WhatsApp</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        ${currentLogo ? `<img src="${currentLogo}" class="card-logo" alt="Logo">` : ''}
+                        <div>
+                            <p class="card-phone">+${data.telefono}</p>
+                            ${data.mensaje ? `<p class="card-message">"${data.mensaje.substring(0, 30)}${data.mensaje.length > 30 ? '...' : ''}"</p>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            previewContainer.innerHTML = cardHTML;
+            currentCard = document.getElementById('cardElement');
+            
+            // Animación de entrada
+            currentCard.style.opacity = '0';
+            currentCard.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                currentCard.style.transition = 'all 0.5s ease';
+                currentCard.style.opacity = '1';
+                currentCard.style.transform = 'scale(1)';
+            }, 50);
+        }
+        
+        // ==========================================
+        // Descarga de Tarjeta
+        // ==========================================
+        
+        downloadBtn.addEventListener('click', async () => {
+            if (!currentCard) return;
+            
+            try {
+                downloadBtn.disabled = true;
+                downloadBtn.innerHTML = `
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Generando PNG...
+                `;
+                
+                // Escala para 300 DPI (85mm x 55mm a 300 DPI = ~1000x650px)
+                const scale = 3.125;
+                
+                const canvas = await html2canvas(currentCard, {
+                    scale: scale,
+                    backgroundColor: null,
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true
+                });
+                
+                // Descargar
+                const link = document.createElement('a');
+                link.download = `tarjeta-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+                
+                showToast('Tarjeta descargada en alta calidad');
+                
+                // Actualizar contador de descargas
+                const downloads = parseInt(localStorage.getItem('qrcard_downloads') || '0') + 1;
+                localStorage.setItem('qrcard_downloads', downloads);
+                
+            } catch (error) {
+                console.error(error);
+                showToast('Error al descargar', 'error');
+            } finally {
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Descargar PNG (300 DPI)
+                `;
+            }
+        });
+        
+        // Previsualización en tiempo real
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', debounce(() => {
+                if (document.getElementById('nombre').value && document.getElementById('telefono').value) {
+                    form.dispatchEvent(new Event('submit'));
+                }
+            }, 500));
+        });
+        
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Atajos de teclado
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                form.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

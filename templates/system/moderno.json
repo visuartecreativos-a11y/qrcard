@@ -1,0 +1,96 @@
+{
+  "id": "moderno",
+  "name": "Moderno",
+  "description": "Diseño contemporáneo con gradiente azul y tipografía moderna. Perfecto para startups y empresas tecnológicas.",
+  "version": "1.0.0",
+  "author": "QRCard System",
+  "layout": {
+    "type": "absolute",
+    "width": "85mm",
+    "height": "55mm",
+    "bleed": "3mm",
+    "totalWidth": "91mm",
+    "totalHeight": "61mm"
+  },
+  "elements": [
+    {
+      "type": "image",
+      "field": "logo",
+      "position": {
+        "x": "5mm",
+        "y": "5mm"
+      },
+      "width": "15mm",
+      "height": "15mm"
+    },
+    {
+      "type": "text",
+      "field": "name",
+      "position": {
+        "x": "5mm",
+        "y": "25mm"
+      },
+      "style": {
+        "font": "Roboto",
+        "size": "15pt",
+        "color": "#FFFFFF",
+        "weight": "bold",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "position",
+      "position": {
+        "x": "5mm",
+        "y": "35mm"
+      },
+      "style": {
+        "font": "Roboto",
+        "size": "10pt",
+        "color": "#E0E0E0",
+        "align": "left"
+      }
+    },
+    {
+      "type": "text",
+      "field": "company",
+      "position": {
+        "x": "5mm",
+        "y": "43mm"
+      },
+      "style": {
+        "font": "Roboto",
+        "size": "9pt",
+        "color": "#B0B0B0",
+        "align": "left"
+      }
+    },
+    {
+      "type": "qr",
+      "position": {
+        "x": "58mm",
+        "y": "8mm"
+      },
+      "size": "30mm",
+      "style": {
+        "color": "#FFFFFF",
+        "bgColor": "transparent"
+      }
+    }
+  ],
+  "styles": {
+    "background": "#007BFF",
+    "textColor": "#FFFFFF",
+    "gradient": {
+      "type": "linear",
+      "colors": ["#007BFF", "#0056b3"],
+      "angle": 135
+    },
+    "typography": {
+      "primary": "Roboto",
+      "secondary": "Arial",
+      "fallback": ["Roboto", "Arial", "sans-serif"]
+    }
+  }
+}
